@@ -14,7 +14,7 @@ vendors:
         rejectPatterns:
           - App unavailable in region
       - name: api-messages
-        url: https://docs.claude.com/en/api/messages.md
+        url: https://platform.claude.com/docs/en/api/messages.md
         enabled: true
         priority: 2
         tags: [api]
@@ -22,7 +22,7 @@ vendors:
         outputPath: data/anthropic/api-messages.md
         timeoutSeconds: 20
       - name: api-completions
-        url: https://docs.claude.com/en/api/completions.md
+        url: https://platform.claude.com/docs/en/api/completions.md
         enabled: true
         priority: 2
         tags: [api]
@@ -30,7 +30,7 @@ vendors:
         outputPath: data/anthropic/api-completions.md
         timeoutSeconds: 20
       - name: api-models
-        url: https://docs.claude.com/en/docs/about-claude/models.md
+        url: https://platform.claude.com/docs/en/about-claude/models.md
         enabled: true
         priority: 2
         tags: [api, models]
@@ -38,7 +38,7 @@ vendors:
         outputPath: data/anthropic/api-models.md
         timeoutSeconds: 20
       - name: api-error-codes
-        url: https://docs.claude.com/en/api/errors.md
+        url: https://platform.claude.com/docs/en/api/errors.md
         enabled: true
         priority: 3
         tags: [api, errors]
@@ -46,7 +46,7 @@ vendors:
         outputPath: data/anthropic/api-error-codes.md
         timeoutSeconds: 20
       - name: api-rate-limits
-        url: https://docs.claude.com/en/api/rate-limits.md
+        url: https://platform.claude.com/docs/en/api/rate-limits.md
         enabled: true
         priority: 3
         tags: [api, limits]
