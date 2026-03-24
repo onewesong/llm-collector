@@ -1,8 +1,40 @@
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { writeFileSync } from 'node:fs';
 
-const path = 'TODAY_DIFF.md';
-const stamp = new Date().toISOString().slice(0, 10);
-const prev = existsSync(path) ? readFileSync(path, 'utf8') : '# Today Diff\n\n';
-const next = `# Today Diff\n\n- ${stamp}: review the latest snapshot changes in the vendor docs.\n` + prev.split(/\r?\n/).slice(2).join('\n') + '\n';
-writeFileSync(path, next);
+function changedFiles() {
+  try {
+    const out = execFileSync('git', ['diff', '--name-only', '--', 'data', 'docs', 'README.md', 'CHANGELOG.md', 'DAILY_SUMMARY.md'], { encoding: 'utf8' });
+    return out.split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+const files = changedFiles();
+const vendors = new Map();
+for (const file of files) {
+  const m = file.match(/^data\/([^/]+)\//);
+  if (!m) continue;
+  const vendor = m[1];
+  if (!vendors.has(vendor)) vendors.set(vendor, []);
+  vendors.get(vendor).push(file.replace(`data/${vendor}/`, ''));
+}
+
+let md = '# Today Diff\n\n';
+if (files.length === 0) {
+  md += '- No changes detected today.\n';
+} else {
+  md += `- Changed files: ${files.length}\n\n`;
+  for (const [vendor, items] of vendors.entries()) {
+    md += `## ${vendor}\n`;
+    for (const item of items) md += `- ${item}\n`;
+    md += '\n';
+  }
+  const misc = files.filter(f => !f.startsWith('data/'));
+  if (misc.length) {
+    md += '## Docs / meta\n';
+    for (const f of misc) md += `- ${f}\n`;
+  }
+}
+writeFileSync('TODAY_DIFF.md', md);
 console.log('updated TODAY_DIFF.md');
