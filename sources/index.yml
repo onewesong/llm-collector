@@ -130,7 +130,7 @@ vendors:
     sources:
       - name: pricing
         url: https://ai.google.dev/gemini-api/docs/pricing
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 1
         tags: [pricing]
@@ -139,7 +139,7 @@ vendors:
         timeoutSeconds: 20
       - name: api-overview
         url: https://ai.google.dev/gemini-api/docs
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 2
         tags: [api]
@@ -148,7 +148,7 @@ vendors:
         timeoutSeconds: 20
       - name: api-models
         url: https://ai.google.dev/gemini-api/docs/models
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 2
         tags: [api, models]
@@ -157,7 +157,7 @@ vendors:
         timeoutSeconds: 20
       - name: api-structured-output
         url: https://ai.google.dev/gemini-api/docs/structured-output
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 2
         tags: [api, format]
@@ -166,7 +166,7 @@ vendors:
         timeoutSeconds: 20
       - name: api-errors
         url: https://ai.google.dev/gemini-api/docs/troubleshooting
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 3
         tags: [api, errors]
@@ -235,7 +235,7 @@ vendors:
         timeoutSeconds: 20
       - name: api-errors
         url: https://openrouter.ai/docs/api-reference/errors
-        preferMarkdown: true
+        preferMarkdown: false
         enabled: true
         priority: 3
         tags: [api, errors]
