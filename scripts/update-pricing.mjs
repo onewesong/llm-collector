@@ -3,30 +3,22 @@ import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const sources = [
-  {
-    vendor: 'claude',
-    name: 'pricing',
-    url: 'https://platform.claude.com/docs/en/about-claude/pricing.md',
-    rejectPatterns: ['App unavailable in region'],
-  },
-  {
-    vendor: 'claude',
-    name: 'api',
-    url: 'https://docs.claude.com/en/api/messages',
-    rejectPatterns: [],
-  },
-  {
-    vendor: 'openai',
-    name: 'pricing',
-    url: 'https://developers.openai.com/api/docs/pricing.md',
-    rejectPatterns: [],
-  },
-  {
-    vendor: 'openai',
-    name: 'api',
-    url: 'https://platform.openai.com/docs/api-reference/introduction',
-    rejectPatterns: [],
-  },
+  // Claude
+  { vendor: 'claude', name: 'pricing', url: 'https://platform.claude.com/docs/en/about-claude/pricing.md', rejectPatterns: ['App unavailable in region'] },
+  { vendor: 'claude', name: 'api-messages', url: 'https://docs.claude.com/en/api/messages', rejectPatterns: [] },
+  { vendor: 'claude', name: 'api-completions', url: 'https://docs.claude.com/en/api/completions', rejectPatterns: [] },
+  { vendor: 'claude', name: 'api-models', url: 'https://docs.claude.com/en/docs/about-claude/models', rejectPatterns: [] },
+  { vendor: 'claude', name: 'api-error-codes', url: 'https://docs.claude.com/en/api/errors', rejectPatterns: [] },
+  { vendor: 'claude', name: 'api-rate-limits', url: 'https://docs.claude.com/en/api/rate-limits', rejectPatterns: [] },
+
+  // OpenAI
+  { vendor: 'openai', name: 'pricing', url: 'https://developers.openai.com/api/docs/pricing.md', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-introduction', url: 'https://platform.openai.com/docs/api-reference/introduction', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-chat', url: 'https://platform.openai.com/docs/api-reference/chat', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-responses', url: 'https://platform.openai.com/docs/api-reference/responses', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-models', url: 'https://platform.openai.com/docs/models', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-errors', url: 'https://platform.openai.com/docs/guides/error-codes', rejectPatterns: [] },
+  { vendor: 'openai', name: 'api-rate-limits', url: 'https://platform.openai.com/docs/guides/rate-limits', rejectPatterns: [] },
 ];
 
 function fetchUrl(url) {
