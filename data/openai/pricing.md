@@ -1,12 +1,3 @@
-# openai pricing
-
-Generated at: 2026-03-24T08:54:55.812Z
-
-Source: https://developers.openai.com/api/docs/pricing.md
-FetchMode: markdown
-TimeoutSeconds: 20
-Tags: pricing
-
 # Pricing
 
 import {

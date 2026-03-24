@@ -1,13 +1,3 @@
-# anthropic pricing
-
-Generated at: 2026-03-24T08:54:55.812Z
-
-Source: https://platform.claude.com/docs/en/about-claude/pricing.md
-FetchMode: text
-TimeoutSeconds: 20
-Tags: pricing
-Notes: App unavailable in region if blocked
-
 # Pricing
 
 Learn about Anthropic's pricing structure for models and features

@@ -3,7 +3,6 @@ import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const DEFAULT_TIMEOUT = '20';
-let turndownPromise = null;
 
 function probeUrl(url, timeoutSeconds = DEFAULT_TIMEOUT) {
   try {
@@ -21,22 +20,6 @@ function fetchUrl(url, timeoutSeconds = DEFAULT_TIMEOUT) {
   } catch (e) {
     return { ok: false, body: `ERROR_FETCHING_URL\n${String(e.stderr || e.message || e)}` };
   }
-}
-
-async function getTurndown() {
-  if (!turndownPromise) {
-    turndownPromise = import('turndown').then(({ default: TurndownService }) => new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' }));
-  }
-  return turndownPromise;
-}
-
-async function toMarkdown(body) {
-  const trimmed = body.trimStart();
-  if (/^<!doctype html>|^<html[\s>]/i.test(trimmed)) {
-    const turndown = await getTurndown();
-    return turndown.turndown(body);
-  }
-  return body;
 }
 
 function isBadContent(body, patterns) {
@@ -85,19 +68,16 @@ function resolveSourceUrl(src) {
 }
 
 const sources = parseSourcesYaml(readFileSync('sources/index.yml', 'utf8'));
-const stamp = new Date().toISOString();
 for (const src of sources) {
   const effectiveUrl = resolveSourceUrl(src);
   const result = fetchUrl(effectiveUrl, src.timeoutSeconds);
   const file = src.outputPath || `data/${src.vendor}/${src.name}.md`;
   mkdirSync(dirname(file), { recursive: true });
-  const body = result.ok ? await toMarkdown(result.body) : result.body;
+  const body = result.ok ? result.body : result.body;
   if ((!result.ok || isBadContent(body, src.rejectPatterns)) && existsSync(file)) {
     console.log(`skipped ${file} (fetch failed or rejected, keeping existing snapshot)`);
     continue;
   }
-  const meta = [`Source: ${effectiveUrl}`, src.fetchMode ? `FetchMode: ${src.fetchMode}` : null, `TimeoutSeconds: ${src.timeoutSeconds}`, src.tags?.length ? `Tags: ${src.tags.join(', ')}` : null, src.notes ? `Notes: ${src.notes}` : null].filter(Boolean).join('\n');
-  const out = `# ${src.vendor} ${src.name}\n\nGenerated at: ${stamp}\n\n${meta}\n\n${body.trimEnd()}\n`;
-  writeFileSync(file, out);
+  writeFileSync(file, body.trimEnd() + '\n');
   console.log(`updated ${file}`);
 }

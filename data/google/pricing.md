@@ -1,12 +1,3 @@
-# google pricing
-
-Generated at: 2026-03-24T08:54:55.812Z
-
-Source: https://ai.google.dev/gemini-api/docs/pricing.md.txt
-FetchMode: markdown
-TimeoutSeconds: 20
-Tags: pricing
-
 > [!IMPORTANT]
 > We have updated our [Terms of Service](https://ai.google.dev/gemini-api/terms).
 
