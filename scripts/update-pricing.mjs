@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname } from 'node:path';
 
 function fetchUrl(url) {
   try {
@@ -14,39 +14,38 @@ function isBadContent(body, patterns) {
   return patterns.some((p) => body.includes(p));
 }
 
-function parseSources(md) {
-  const lines = md.split(/\r?\n/);
+function parseSourcesYaml(yml) {
+  const lines = yml.split(/\r?\n/);
   const items = [];
-  let vendor = '';
-  for (const line of lines) {
-    const heading = line.match(/^##\s+(.+)$/);
-    if (heading) {
-      vendor = heading[1].trim().toLowerCase();
-      continue;
-    }
-    const item = line.match(/^-\s+([^\s]+)\s+—\s+(https?:\/\/\S+)$/);
-    if (item && vendor) {
-      items.push({ vendor, name: item[1], url: item[2], rejectPatterns: vendor === 'anthropic' && item[1] === 'pricing' ? ['App unavailable in region'] : [] });
-    }
+  let vendor = null;
+  let current = null;
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    let m = line.match(/^\s{2}([a-z0-9_-]+):\s*$/i);
+    if (m) { vendor = m[1]; continue; }
+    m = line.match(/^\s{4}-\s+name:\s*(\S+)\s*$/);
+    if (m) { current = { vendor, name: m[1], rejectPatterns: [] }; items.push(current); continue; }
+    m = line.match(/^\s{6}url:\s*(\S+)\s*$/);
+    if (m && current) { current.url = m[1]; continue; }
+    m = line.match(/^\s{6}rejectPatterns:\s*$/);
+    if (m && current) { current.rejectPatterns = []; continue; }
+    m = line.match(/^\s{8}-\s*(.+)\s*$/);
+    if (m && current) { current.rejectPatterns.push(m[1]); continue; }
   }
-  return items;
+  return items.filter(x => x.vendor && x.name && x.url);
 }
 
-const sourcesPath = join(process.cwd(), 'sources/index.md');
-const sourcesMd = readFileSync(sourcesPath, 'utf8');
-const sources = parseSources(sourcesMd);
+const sourcesPath = 'sources/index.yml';
+const sources = parseSourcesYaml(readFileSync(sourcesPath, 'utf8'));
 const stamp = new Date().toISOString();
-
 for (const src of sources) {
   const result = fetchUrl(src.url);
   const file = `data/${src.vendor}/${src.name}.md`;
   mkdirSync(dirname(file), { recursive: true });
-
   if ((!result.ok || isBadContent(result.body, src.rejectPatterns)) && existsSync(file)) {
     console.log(`skipped ${file} (fetch failed or rejected, keeping existing snapshot)`);
     continue;
   }
-
   const out = `# ${src.vendor} ${src.name}\n\nGenerated at: ${stamp}\n\nSource: ${src.url}\n\n${result.body.trimEnd()}\n`;
   writeFileSync(file, out);
   console.log(`updated ${file}`);

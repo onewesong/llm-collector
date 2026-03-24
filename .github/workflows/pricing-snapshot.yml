@@ -9,8 +9,18 @@ permissions:
   contents: write
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/validate-sources.mjs
+
   snapshot:
     runs-on: ubuntu-latest
+    needs: validate
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,10 +35,10 @@ jobs:
 
       - name: Commit changes
         run: |
-          if [ -n "$(git status --porcelain data/claude data/openai)" ]; then
+          if [ -n "$(git status --porcelain data/claude data/openai data/google data/deepseek data/openrouter)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add data/claude data/openai
+            git add data/claude data/openai data/google data/deepseek data/openrouter
             git commit -m "chore: update model intel docs"
             git push
           else

@@ -1,0 +1,64 @@
+vendors:
+  anthropic:
+    - name: pricing
+      url: https://platform.claude.com/docs/en/about-claude/pricing.md
+      rejectPatterns:
+        - App unavailable in region
+    - name: api-messages
+      url: https://docs.claude.com/en/api/messages
+    - name: api-completions
+      url: https://docs.claude.com/en/api/completions
+    - name: api-models
+      url: https://docs.claude.com/en/docs/about-claude/models
+    - name: api-error-codes
+      url: https://docs.claude.com/en/api/errors
+    - name: api-rate-limits
+      url: https://docs.claude.com/en/api/rate-limits
+  openai:
+    - name: pricing
+      url: https://developers.openai.com/api/docs/pricing.md
+    - name: api-introduction
+      url: https://platform.openai.com/docs/api-reference/introduction
+    - name: api-chat
+      url: https://platform.openai.com/docs/api-reference/chat
+    - name: api-responses
+      url: https://platform.openai.com/docs/api-reference/responses
+    - name: api-models
+      url: https://platform.openai.com/docs/models
+    - name: api-errors
+      url: https://platform.openai.com/docs/guides/error-codes
+    - name: api-rate-limits
+      url: https://platform.openai.com/docs/guides/rate-limits
+  google:
+    - name: pricing
+      url: https://ai.google.dev/gemini-api/docs/pricing
+    - name: api-overview
+      url: https://ai.google.dev/gemini-api/docs
+    - name: api-models
+      url: https://ai.google.dev/gemini-api/docs/models
+    - name: api-structured-output
+      url: https://ai.google.dev/gemini-api/docs/structured-output
+    - name: api-errors
+      url: https://ai.google.dev/gemini-api/docs/troubleshooting
+  deepseek:
+    - name: pricing
+      url: https://api-docs.deepseek.com/quick_start/pricing
+    - name: api-introduction
+      url: https://api-docs.deepseek.com/
+    - name: api-chat
+      url: https://api-docs.deepseek.com/api/create-chat-completion
+    - name: api-models
+      url: https://api-docs.deepseek.com/models
+    - name: api-errors
+      url: https://api-docs.deepseek.com/guide/error_code
+  openrouter:
+    - name: pricing
+      url: https://openrouter.ai/docs/pricing
+    - name: api-introduction
+      url: https://openrouter.ai/docs/quickstart
+    - name: api-models
+      url: https://openrouter.ai/models
+    - name: api-rate-limits
+      url: https://openrouter.ai/docs/requests-and-rate-limits
+    - name: api-errors
+      url: https://openrouter.ai/docs/errors
