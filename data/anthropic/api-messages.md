@@ -1,9 +1,10 @@
 # anthropic api-messages
 
-Generated at: 2026-03-24T03:56:22.220Z
+Generated at: 2026-03-24T04:07:52.412Z
 
 Source: https://docs.claude.com/en/api/messages.md
 FetchMode: markdown
+TimeoutSeconds: 20
 Tags: api
 
 # Messages

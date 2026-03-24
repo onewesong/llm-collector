@@ -1,9 +1,10 @@
 # anthropic pricing
 
-Generated at: 2026-03-24T03:56:22.220Z
+Generated at: 2026-03-24T04:07:52.412Z
 
 Source: https://platform.claude.com/docs/en/about-claude/pricing.md
 FetchMode: text
+TimeoutSeconds: 20
 Tags: pricing
 Notes: App unavailable in region if blocked
 

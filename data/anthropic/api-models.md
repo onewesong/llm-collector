@@ -1,9 +1,10 @@
 # anthropic api-models
 
-Generated at: 2026-03-24T03:56:22.220Z
+Generated at: 2026-03-24T04:07:52.412Z
 
 Source: https://docs.claude.com/en/docs/about-claude/models.md
 FetchMode: markdown
+TimeoutSeconds: 20
 Tags: api, models
 
 # Models overview
