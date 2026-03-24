@@ -27,13 +27,15 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/update-pricing.mjs
+      - run: node scripts/generate-index.mjs
+      - run: node scripts/generate-readme.mjs
       - name: Commit changes
         run: |
-          if [ -n "$(git status --porcelain data)" ]; then
+          if [ -n "$(git status --porcelain data docs/index.md README.md)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add data
-            git commit -m "chore: update model intel docs"
+            git add data docs/index.md README.md
+            git commit -m "chore: refresh intel outputs"
             git push
           else
             echo "No changes"

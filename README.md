@@ -1,10 +1,8 @@
 # intel-collector
 
-Mintlify-based documentation site for model intelligence collection.
+Model intelligence collection repo.
 
-## Setup
+- Vendors: 5
+- Sources: 28
 
-```bash
-npm install
-npm run dev
-```
+See `docs/index.md` for the generated collection index.
