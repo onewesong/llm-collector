@@ -1,10 +1,9 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import TurndownService from 'turndown';
 
 const DEFAULT_TIMEOUT = '20';
-const turndown = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' });
+let turndownPromise = null;
 
 function probeUrl(url, timeoutSeconds = DEFAULT_TIMEOUT) {
   try {
@@ -24,9 +23,17 @@ function fetchUrl(url, timeoutSeconds = DEFAULT_TIMEOUT) {
   }
 }
 
-function toMarkdown(body) {
+async function getTurndown() {
+  if (!turndownPromise) {
+    turndownPromise = import('turndown').then(({ default: TurndownService }) => new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' }));
+  }
+  return turndownPromise;
+}
+
+async function toMarkdown(body) {
   const trimmed = body.trimStart();
   if (/^<!doctype html>|^<html[\s>]/i.test(trimmed)) {
+    const turndown = await getTurndown();
     return turndown.turndown(body);
   }
   return body;
@@ -86,7 +93,7 @@ for (const src of sources) {
   const result = fetchUrl(effectiveUrl, src.timeoutSeconds);
   const file = src.outputPath || `data/${src.vendor}/${src.name}.md`;
   mkdirSync(dirname(file), { recursive: true });
-  const body = result.ok ? toMarkdown(result.body) : result.body;
+  const body = result.ok ? await toMarkdown(result.body) : result.body;
   if ((!result.ok || isBadContent(body, src.rejectPatterns)) && existsSync(file)) {
     console.log(`skipped ${file} (fetch failed or rejected, keeping existing snapshot)`);
     continue;
