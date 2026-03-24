@@ -32,12 +32,13 @@ jobs:
       - run: node scripts/generate-vendor-pages.mjs
       - run: node scripts/generate-changelog.mjs
       - run: node scripts/generate-daily-summary.mjs
+      - run: node scripts/generate-today-diff.mjs
       - name: Commit changes
         run: |
-          if [ -n "$(git status --porcelain data docs README.md CHANGELOG.md DAILY_SUMMARY.md)" ]; then
+          if [ -n "$(git status --porcelain data docs README.md CHANGELOG.md DAILY_SUMMARY.md TODAY_DIFF.md)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add data docs README.md CHANGELOG.md DAILY_SUMMARY.md
+            git add data docs README.md CHANGELOG.md DAILY_SUMMARY.md TODAY_DIFF.md
             git commit -m "chore: refresh intel outputs"
             git push
           else
