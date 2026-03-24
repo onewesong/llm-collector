@@ -35,8 +35,6 @@ for (const src of sources) {
 
   if ((!result.ok || isBadContent(result.body, src.rejectPatterns)) && existsSync(file)) {
     console.log(`skipped ${file} (fetch failed or rejected, keeping existing snapshot)`);
-    const errFile = `data/${src.name}/pricing-error.md`;
-    writeFileSync(errFile, `# ${src.name} pricing fetch error\n\nGenerated at: ${stamp}\n\nSource: ${src.url}\n\n${result.body.trimEnd()}\n`);
     continue;
   }
 
